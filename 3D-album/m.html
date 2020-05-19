@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>陈礼超</title>
+    <title>钰&超</title>
     <link rel="shortcut icon" href="favicon.ico">
     <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            overflow: hidden;
+        }
         .container{
             height: 100%;
             background: black;
@@ -16,9 +23,9 @@
             display: table;
         }
         .container > .album{
-            width: 150px;
-            height: 200px;
-            margin: 200px auto;
+            width: 100px;
+            height: 120px;
+            margin: 240px auto;
             position: relative;
             transform-style:preserve-3d; /*设置场景风格*/
         }
@@ -26,21 +33,35 @@
             position: absolute;
             -webkit-box-reflect: below 5px -webkit-linear-gradient(top,rgba(250,250,250,0),rgba(250,250,250,.0) 30%,rgba(250,250,250,0.3));
         }
+        .mp3-box{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .mp3-audio{
+
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="album" id="album">
-            <img src="./imgs/1.jpg" alt="" width="150" height="200">
-            <img src="./imgs/2.jpg" alt="" width="150" height="200">
-            <img src="./imgs/3.jpg" alt="" width="150" height="200">
-            <img src="./imgs/4.jpg" alt="" width="150" height="200">
-            <img src="./imgs/5.jpg" alt="" width="150" height="200">
-            <img src="./imgs/6.jpg" alt="" width="150" height="200">
-            <img src="./imgs/7.jpg" alt="" width="150" height="200">
-            <img src="./imgs/8.jpg" alt="" width="150" height="200">
-            <img src="./imgs/9.jpg" alt="" width="150" height="200">
+            <img src="./imgs/1.jpg" alt="" width="100" height="120">
+            <img src="./imgs/2.jpg" alt="" width="100" height="120">
+            <img src="./imgs/3.jpg" alt="" width="100" height="120">
+            <img src="./imgs/4.jpg" alt="" width="100" height="120">
+            <img src="./imgs/5.jpg" alt="" width="100" height="120">
+            <img src="./imgs/6.jpg" alt="" width="100" height="120">
+            <img src="./imgs/7.jpg" alt="" width="100" height="120">
+            <img src="./imgs/8.jpg" alt="" width="100" height="120">
+            <img src="./imgs/9.jpg" alt="" width="100" height="120">
         </div>
+    </div>
+    <div class="mp3-box">
+        <audio controls id="music" class="mp3-audio" controls loop>
+            <source src="./mp3/baobei.mp3" type="audio/ogg">
+            您的浏览器不支持 audio 元素。
+        </audio>
     </div>
     <!-- 如何设置3D布局
         1、 先设置场景景深
@@ -55,21 +76,29 @@
     var rotX = 0
     var rotY = 0
 
+    const myplay = () => {
+      var music = document.getElementById("music");
+　　　　//判断如果音乐停止播放中，就让他播放。。。
+      if (music.paused) {
+        music.paused = false;
+        music.play();
+      }
+    }
     const returnFalse = (e) => {
       e.preventDefault()
     }
     window.onload = ()=>{
         Array.prototype.forEach.call(imgs, (it, i, arr) => {
-            it.style.transform = `rotateY(${i * unitDeg}deg) translateZ(300px)`
+            it.style.transform = `rotateY(${i * unitDeg}deg) translateZ(200px)`
             it.style.transition = `1s ${(len - i) * 0.1}s`
             it.ontouchstart = returnFalse
+            myplay();
       })
-      //   鼠标移动 相册旋转 改变album的transform 的rotateX 和 rotateY的值
+        // 鼠标移动 相册旋转 改变album的transform 的rotateX 和 rotateY的值
       document.ontouchstart = function (e) { // 鼠标点击事件
         lastX = e.changedTouches[0].clientX
         lastY = e.changedTouches[0].clientY
         this.ontouchmove= (e) => { // 鼠标移动事件
-          console.log(e)
           newX = e.changedTouches[0].clientX
           newY = e.changedTouches[0].clientY
 
