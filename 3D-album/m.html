@@ -2,19 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>钰&超</title>
     <link rel="shortcut icon" href="favicon.ico">
     <style>
+        body,html{
+            margin: 0;padding: 0;
+            overflow: hidden;
+        }
+        body:-webkit-scrollbar,html:-webkit-scrollbar{
+            /* scroll滚动条设置 */
+            width: 0px;
+            height: 0px;
+            background-color: #fff;
+        }
         *{
             padding: 0;
             margin: 0;
         }
-        body{
-            overflow: hidden;
-        }
         .container{
-            height: 100%;
             background: black;
             perspective: 1000px;/*场景景深*/
         }
@@ -22,12 +28,19 @@
             content: "";
             display: table;
         }
+        @keyframes myrotate{
+            from {transform: rotateY(0deg);}
+            to {transform: rotateY(360deg);}
+        }
         .container > .album{
             width: 100px;
             height: 120px;
             margin: 240px auto;
             position: relative;
             transform-style:preserve-3d; /*设置场景风格*/
+        }
+        .my-rotate{
+            animation:myrotate 8s infinite linear;
         }
         .container>.album>img{
             position: absolute;
@@ -37,9 +50,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        .mp3-audio{
-
         }
     </style>
 </head>
@@ -70,12 +80,15 @@
     <script>
     var album = document.getElementById('album');
     var imgs = album.children;
-    var len = imgs.length
-    var unitDeg = 360 / len
-    var newX, newY, lastX, lastY, minusX, minusY
-    var rotX = 0
-    var rotY = 0
-
+    var len = imgs.length;
+    var unitDeg = 360 / len;
+    var newX, newY, lastX, lastY, minusX, minusY;
+    var rotX = 0;
+    var rotY = 0;
+    const returnFalse = (e) => {
+      e.preventDefault()
+    }
+    document.ontouchmove = returnFalse;
     const myplay = () => {
       var music = document.getElementById("music");
 　　　　//判断如果音乐停止播放中，就让他播放。。。
@@ -84,41 +97,14 @@
         music.play();
       }
     }
-    const returnFalse = (e) => {
-      e.preventDefault()
-    }
     window.onload = ()=>{
+        myplay();
         Array.prototype.forEach.call(imgs, (it, i, arr) => {
             it.style.transform = `rotateY(${i * unitDeg}deg) translateZ(200px)`
             it.style.transition = `1s ${(len - i) * 0.1}s`
             it.ontouchstart = returnFalse
-            myplay();
-      })
-        // 鼠标移动 相册旋转 改变album的transform 的rotateX 和 rotateY的值
-      document.ontouchstart = function (e) { // 鼠标点击事件
-        lastX = e.changedTouches[0].clientX
-        lastY = e.changedTouches[0].clientY
-        this.ontouchmove= (e) => { // 鼠标移动事件
-          newX = e.changedTouches[0].clientX
-          newY = e.changedTouches[0].clientY
-
-          // 假设 并求值 两次鼠标移动的差值就是移动的距离 和相册旋转的角度成正比
-          minusX = newX - lastX
-          minusY = newY - lastY
-
-          rotX += minusY
-          rotY += minusX
-
-          album.style.transform = `rotateX(${-rotX * 0.2}deg) rotateY(${rotY * 0.2}deg)`
-
-          // 新的值用完之后就成了旧的值
-          lastX = newX
-          lastY = newY
-        }
-        this.ontouchend = (e) => { // 鼠标松开事件
-          this.ontouchmove = null
-        }
-      }
+        });
+        album.className = album.className+' my-rotate'
     }
     </script>
 </body>
