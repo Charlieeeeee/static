@@ -9,74 +9,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>钰&超</title>
     <link rel="shortcut icon" href="favicon.ico">
-    <style>
-        body,html{
-            margin: 0;padding: 0;
-            overflow: hidden;
-        }
-        body:-webkit-scrollbar,html:-webkit-scrollbar{
-            /* scroll滚动条设置 */
-            width: 0px;
-            height: 0px;
-            background-color: #fff;
-        }
-        *{
-            padding: 0;
-            margin: 0;
-        }
-        .container{
-            background: black;
-            perspective: 1000px;/*场景景深*/
-        }
-        .container:before{
-            content: "";
-            display: table;
-        }
-        @keyframes myrotate{
-            from {transform: rotateY(0deg);}
-            to {transform: rotateY(360deg);}
-        }
-        .container > .album{
-            width: 100px;
-            height: 120px;
-            margin: 240px auto;
-            position: relative;
-            transform-style:preserve-3d; /*设置场景风格*/
-        }
-        .my-rotate{
-            animation:myrotate 8s infinite linear;
-        }
-        .container>.album>img{
-            position: absolute;
-            -webkit-box-reflect: below 5px -webkit-linear-gradient(top,rgba(250,250,250,0),rgba(250,250,250,.0) 30%,rgba(250,250,250,0.3));
-        }
-        .mp3-box{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="./css/m.css?v2020052001">
 </head>
 <body>
     <div class="container">
         <div class="album my-rotate" id="album">
-            <img src="./imgs/1.jpg" alt="" width="100" height="120">
-            <img src="./imgs/2.jpg" alt="" width="100" height="120">
-            <img src="./imgs/3.jpg" alt="" width="100" height="120">
-            <img src="./imgs/4.jpg" alt="" width="100" height="120">
-            <img src="./imgs/5.jpg" alt="" width="100" height="120">
-            <img src="./imgs/6.jpg" alt="" width="100" height="120">
-            <img src="./imgs/7.jpg" alt="" width="100" height="120">
-            <img src="./imgs/8.jpg" alt="" width="100" height="120">
-            <img src="./imgs/9.jpg" alt="" width="100" height="120">
+            <img src="./imgs/1.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/2.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/3.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/4.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/5.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/6.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/7.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/8.jpg?v2020052001" alt="" width="100" height="120">
+            <img src="./imgs/9.jpg?v2020052001" alt="" width="100" height="120">
         </div>
     </div>
     <div class="mp3-box">
-        <audio autoplay="autoplay" src="./mp3/baobei.lite.mp3"></audio>
-        <!-- <audio controls id="musbox" class="mp3-audio" autoplay controls loop>
-            <source src="./mp3/baobei.lite.mp3" type="audio/ogg">
+        <!-- <audio autoplay="autoplay" src="./mp3/baobei.lite.mp3"></audio> -->
+        <audio controls id="musbox" class="mp3-audio" autobuffer autoplay controls loop>
+            <source src="./mp3/baobei.lite.mp3" type="audio/mpeg">
             您的浏览器不支持 audio 元素。
-        </audio> -->
+        </audio>
     </div>
     <!-- 如何设置3D布局
         1、 先设置场景景深
