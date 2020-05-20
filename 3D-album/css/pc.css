@@ -1,0 +1,24 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.container{
+    height: 100%;
+    background: black;
+    perspective: 1000px;/*场景景深*/
+}
+.container:before{
+    content: "";
+    display: table;
+}
+.container > .album{
+    width: 150px;
+    height: 200px;
+    margin: 200px auto;
+    position: relative;
+    transform-style:preserve-3d; /*设置场景风格*/
+}
+.container>.album>img{
+    position: absolute;
+    -webkit-box-reflect: below 5px -webkit-linear-gradient(top,rgba(250,250,250,0),rgba(250,250,250,.0) 30%,rgba(250,250,250,0.3));
+}
