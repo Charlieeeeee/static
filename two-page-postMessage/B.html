@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>这是 B 页面</div>
+    <script>
+        console.log("come into page B")
+
+        //  1) 页面正常关闭
+
+        // 方案一、
+        // window.addEventListener("beforeunload", () => {
+        //     // url 挂参 跳回到已打开的 A 页面
+        //     window.open('A.html#close', "A")
+        //     return '确定离开此页吗？';
+        // })
+
+        // 方案二、
+        window.addEventListener("beforeunload", () => {
+            localStorage.setItem("isClose", `yes-${Math.random()}`);
+            return '确定离开此页吗？';
+        })
+
+        // 2) 页面意外崩溃下关闭
+        function handleCrash() {
+            var total = "";
+            for (var i = 0; i < 1000000; i++) {
+                var dom = document.createElement('span');
+                dom.innerHTML = "崩溃";
+                document.getElementsByTagName("body")[0].appendChild(dom)
+            }
+        }
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js', {
+                scope: './'
+            }).then(function (registration) {
+                if (navigator.serviceWorker.controller !== null) {
+                    // 每五秒发一次心跳
+                    let HEARTBEAT_INTERVAL = 5 * 1000;
+                    let sessionId = "uuid()";
+                    let heartbeat = function () {
+                        // running
+                        console.log("页面发送 state:running")
+                        // 附加信息，如果页面 crash，上报的附加数据
+                        navigator.serviceWorker.controller.postMessage({
+                            type: 'running',
+                            id: sessionId,
+                            data: {}
+                        });
+                    }
+                    window.addEventListener("beforeunload", function () {
+                        console.log("页面发送 state:clear") // clear
+                        navigator.serviceWorker.controller.postMessage({
+                            type: 'clear',
+                            id: sessionId
+                        });
+                    });
+                    setInterval(heartbeat, HEARTBEAT_INTERVAL);
+                    heartbeat();
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
